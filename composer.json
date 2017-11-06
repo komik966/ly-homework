@@ -1,5 +1,14 @@
 {
     "name": "komik966/ly-homework",
     "type": "project",
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^6.4"
+    },
+    "autoload": {
+        "psr-4": { "Komik966\\LyHomework\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Komik966\\LyHomework\\Tests\\": "tests/" }
+    }
 }
