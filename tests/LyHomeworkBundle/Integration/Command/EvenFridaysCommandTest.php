@@ -1,10 +1,10 @@
 <?php
 namespace Tests\LyHomeworkBundle\Integration\Command;
 
-use LyHomeworkBundle\Command\EvenDaysCommand;
+use LyHomeworkBundle\Command\EvenFridaysCommand;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class EvenDaysCommandTest extends WebTestCase
+class EvenFridaysCommandTest extends WebTestCase
 {
 
 }
