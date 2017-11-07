@@ -13,3 +13,4 @@
 !var/SymfonyRequirements.php
 parameters.yml
 .DS_Store
+build/
