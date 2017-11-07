@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/komik966/ly-homework/badge.svg?branch=master)](https://coveralls.io/github/komik966/ly-homework?branch=master)
+[![Build Status](https://travis-ci.org/komik966/ly-homework.svg?branch=master)](https://travis-ci.org/komik966/ly-homework)
 
 Run with Docker
 ===============
