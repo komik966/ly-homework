@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/komik966/ly-homework/badge.svg?branch=master)](https://coveralls.io/github/komik966/ly-homework?branch=master)
+
 Run with Docker
 ===============
 `docker build . -t ly-homework`

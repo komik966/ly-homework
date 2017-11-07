@@ -2,3 +2,4 @@
 /vendor/
 var/
 parameters.yml
+.DS_Store
