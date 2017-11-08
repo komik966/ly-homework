@@ -3,15 +3,31 @@
 
 Run with Docker
 ===============
-`docker build . -t ly-homework`
+1. Build image:
+```bash
+docker build . -t ly-homework
+```
 
-Without mounted dir:
+2. Run container:
+```bash
+# If you want mounted project:
+docker run -p 4000:80 --name ly-homework --mount type=bind,source="$(pwd)",destination=/var/www/html ly-homework
+# If you don't:
+docker run -p 4000:80 --name ly-homework ly-homework
+```
 
-1. `docker run -p 4000:80 --name ly-homework ly-homework`
-2. `docker exec -u root ly-homework /etc/init.d/nginx start`
+3. Start nginx:
+```bash
+docker exec -u root ly-homework /etc/init.d/nginx start
+```
 
-With mounted dir:
+Task 1: Even fridays
+====================
+Execute it as Symfony command:
 
-1. `docker run -p 4000:80 --name ly-homework --mount type=bind,source="$(pwd)",destination=/var/www/html ly-homework`
+![Image](./docs/even-fridays.png)
 
-2. `docker exec -u root ly-homework /etc/init.d/nginx start`
+With Docker:
+```bash
+docker exec ly-homework ./bin/console ly-homework:even-fridays
+```
