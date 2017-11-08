@@ -3,44 +3,106 @@ declare(strict_types=1);
 
 namespace LyHomeworkBundle\Model;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class Image
 {
-    private $mirrored;
-    private $width;
-    private $height;
+    public const GROUP_REQUEST = 'request';
+    public const GROUP_RESPONSE = 'response';
+
+    /**
+     * @Groups({Image::GROUP_REQUEST})
+     * @Assert\NotBlank()
+     * @Assert\File(maxSize="5M")
+     * @var UploadedFile
+     */
+    private $image;
+
+    /**
+     * @Groups({Image::GROUP_RESPONSE})
+     * @var int
+     */
+    private $originalWidth;
+
+    /**
+     * @Groups({Image::GROUP_RESPONSE})
+     * @var int
+     */
+    private $originalHeight;
+
+    /**
+     * @Groups({Image::GROUP_RESPONSE})
+     * @var string
+     */
     private $humanReadableFileSize;
+
+    /**
+     * @Groups({Image::GROUP_RESPONSE})
+     * @var string
+     */
     private $mimeType;
 
-    public function getMirrored(): string
+    /**
+     * @Groups({Image::GROUP_REQUEST})
+     * @Assert\NotBlank()
+     * @Assert\Type(type="int")
+     * @Assert\GreaterThanOrEqual(value="16")
+     * @Assert\LessThanOrEqual(value="1024")
+     * @var int
+     */
+    private $scaledWidth;
+
+    /**
+     * @Groups({Image::GROUP_REQUEST})
+     * @Assert\NotBlank()
+     * @Assert\Type(type="int")
+     * @Assert\GreaterThanOrEqual(value="16")
+     * @Assert\LessThanOrEqual(value="1024")
+     * @var int
+     */
+    private $scaledHeight;
+
+    /**
+     * @Groups({Image::GROUP_RESPONSE})
+     * @var string
+     */
+    private $mirroredImagePath;
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImage(): UploadedFile
     {
-        return $this->mirrored;
+        return $this->image;
     }
 
-    public function setMirrored(string $mirrored): Image
+    public function setImage($image): Image
     {
-        $this->mirrored = $mirrored;
+        $this->image = $image;
         return $this;
     }
 
-    public function getWidth(): int
+    public function getOriginalWidth(): int
     {
-        return $this->width;
+        return $this->originalWidth;
     }
 
-    public function setWidth(int $width): Image
+    public function setOriginalWidth(int $originalWidth): Image
     {
-        $this->width = $width;
+        $this->originalWidth = $originalWidth;
         return $this;
     }
 
-    public function getHeight(): int
+    public function getOriginalHeight(): int
     {
-        return $this->height;
+        return $this->originalHeight;
     }
 
-    public function setHeight(int $height): Image
+    public function setOriginalHeight(int $originalHeight): Image
     {
-        $this->height = $height;
+        $this->originalHeight = $originalHeight;
         return $this;
     }
 
@@ -63,6 +125,39 @@ class Image
     public function setMimeType(string $mimeType): Image
     {
         $this->mimeType = $mimeType;
+        return $this;
+    }
+
+    public function getScaledWidth(): int
+    {
+        return $this->scaledWidth;
+    }
+
+    public function setScaledWidth($scaledWidth): Image
+    {
+        $this->scaledWidth = (int)$scaledWidth;
+        return $this;
+    }
+
+    public function getScaledHeight(): int
+    {
+        return $this->scaledHeight;
+    }
+
+    public function setScaledHeight($scaledHeight): Image
+    {
+        $this->scaledHeight = (int)$scaledHeight;
+        return $this;
+    }
+
+    public function getMirroredImagePath(): string
+    {
+        return $this->mirroredImagePath;
+    }
+
+    public function setMirroredImagePath(string $mirroredImagePath): Image
+    {
+        $this->mirroredImagePath = $mirroredImagePath;
         return $this;
     }
 }

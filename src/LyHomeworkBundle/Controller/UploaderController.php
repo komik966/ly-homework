@@ -6,11 +6,12 @@ namespace LyHomeworkBundle\Controller;
 use LyHomeworkBundle\Model\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UploaderController extends Controller
 {
@@ -19,9 +20,15 @@ class UploaderController extends Controller
      */
     private $serializer;
 
-    public function __construct(Serializer $serializer)
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    public function __construct(Serializer $serializer, ValidatorInterface $validator)
     {
         $this->serializer = $serializer;
+        $this->validator = $validator;
     }
 
     /**
@@ -37,18 +44,38 @@ class UploaderController extends Controller
      */
     public function uploadImageAction(Request $request): Response
     {
-        /** @var UploadedFile $image */
-        $uploadedImage = $request->files->get('image');
-        $width = $request->get('width');
-        $height = $request->get('height');
+        $image = $this->serializer->denormalize(
+            array_merge($request->request->all(), $request->files->all()),
+            Image::class,
+            null,
+            ['groups' => [Image::GROUP_REQUEST]]
+        );
 
-        $image = (new Image())
-            ->setHeight(100)
-            ->setWidth(200)
-            ->setHumanReadableFileSize("2.2 MB")
-            ->setMimeType("image/jpeg")
-            ->setMirrored("/images/sdsdfsdfsdf.jpg");
+        $validationResult = $this->validateImageAndPrepareErrorResponse($image);
+        if ($validationResult instanceof JsonResponse) {
+            return $validationResult;
+        }
 
-        return new JsonResponse($this->serializer->serialize($image, 'json'), 200, [], true);
+        return new JsonResponse(
+            $this->serializer->serialize($image, 'json', ['groups' => Image::GROUP_RESPONSE]), 200, [],
+            true
+        );
+    }
+
+    private function validateImageAndPrepareErrorResponse(Image $image): ?JsonResponse
+    {
+        $validationResult = $this->validator->validate($image);
+        if (0 === $validationResult->count()) {
+            return null;
+        }
+        $result = ['errors' => []];
+        foreach ($validationResult as $violation) {
+            /** @var ConstraintViolationInterface $violation */
+            $result['errors'][] = [
+                'path' => $violation->getPropertyPath(),
+                'message' => $violation->getMessage()
+            ];
+        }
+        return new JsonResponse($result, 400);
     }
 }
