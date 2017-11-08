@@ -15,3 +15,5 @@ parameters.yml
 .DS_Store
 build/
 /web/bundles/
+/web/images
+!/web/images/.gitkeep

@@ -80,7 +80,7 @@
                 "email": "komik966@gmail.com"
             }
         },
-        "host": "{{ app.request.getHttpHost() }}",
+        "host": "{{ app.request.getHttpHost() }}/app_dev.php",
         "schemes": [
             "http"
         ],
@@ -146,7 +146,7 @@
                     "height": {
                         "type": "integer"
                     },
-                    "humanReadableSize": {
+                    "humanReadableFileSize": {
                         "type": "string"
                     },
                     "mimeType": {
@@ -158,7 +158,6 @@
     };
     window.onload = function() {
         window.ui = SwaggerUIBundle({
-            url: '{{ asset('bundles/lyhomework/swagger-spec.json') }}',
             spec: spec,
             dom_id: '#swagger-ui',
             deepLinking: true,
