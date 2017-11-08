@@ -101,14 +101,14 @@
                     ],
                     "parameters": [
                         {
-                            "name": "width",
+                            "name": "scaledWidth",
                             "in": "formData",
                             "description": "Expected width of scaled image",
                             "required": true,
                             "type": "integer"
                         },
                         {
-                            "name": "height",
+                            "name": "scaledHeight",
                             "in": "formData",
                             "description": "Expected height of scaled image",
                             "required": true,
@@ -127,6 +127,12 @@
                             "description": "successful operation",
                             "schema": {
                                 "$ref": "#/definitions/Image"
+                            }
+                        },
+                        "400": {
+                            "description": "Validation failure",
+                            "schema": {
+                                "$ref": "#/definitions/Error"
                             }
                         }
                     }
@@ -151,6 +157,25 @@
                     },
                     "mimeType": {
                         "type": "string"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "path": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
                     }
                 }
             }
