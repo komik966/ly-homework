@@ -5,6 +5,9 @@ namespace LyHomeworkBundle\Command;
 
 use LyHomeworkBundle\Factory\EvenFridaysCollectionFactory;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class EvenFridaysCommand extends Command
 {
@@ -24,5 +27,18 @@ class EvenFridaysCommand extends Command
     {
         $this->setName("ly-homework:even-fridays")
             ->setDescription("Prints even fridays in 2021");
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $table = new Table($output);
+        $rows = [];
+        foreach ($this->evenFridaysCollectionFactory->create() as $date) {
+            $rows[] = [$date];
+        }
+        $table
+            ->setHeaders(["Date"])
+            ->setRows($rows)
+            ->render();
     }
 }
