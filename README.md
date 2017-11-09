@@ -31,3 +31,15 @@ With Docker:
 ```bash
 docker exec ly-homework ./bin/console ly-homework:even-fridays
 ```
+
+Task 2: Flip & resize image
+===========================
+Follow screenshots:
+
+![Image](./docs/img-flip-1.png)
+
+![Image](./docs/img-flip-2.png)
+
+![Image](./docs/img-flip-3.png)
+
+![Image](./docs/img-flip-4.png)
