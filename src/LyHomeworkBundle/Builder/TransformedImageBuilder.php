@@ -23,7 +23,7 @@ class TransformedImageBuilder
         return $this;
     }
 
-    public function resizeAndMirror(): TransformedImageBuilder
+    public function resizeAndFlip(): TransformedImageBuilder
     {
         return $this;
     }
@@ -33,7 +33,7 @@ class TransformedImageBuilder
         $this->resultImage
             ->setMimeType($this->baseImage->getImageFile()->getMimeType())
             ->setHumanReadableFileSize($this->humanFileSize($this->baseImage->getImageFile()->getSize()))
-            ->setMirroredImagePath('foo')
+            ->setTransformedImagePath('foo')
             ->setOriginalWidth(100)
             ->setOriginalHeight(100);
         return $this;

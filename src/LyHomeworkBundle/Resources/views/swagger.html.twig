@@ -73,7 +73,7 @@
     var spec = {
         "swagger": "2.0",
         "info": {
-            "description": "This api allows for upload and mirror an image.",
+            "description": "This api allows for flip and scale an image.",
             "version": "1.0.0",
             "title": "Image uploader",
             "contact": {
@@ -85,14 +85,14 @@
             "http"
         ],
         "paths": {
-            "/upload-image": {
+            "/transform-image": {
                 "post": {
                     "tags": [
                         "Image"
                     ],
-                    "summary": "uploads and mirrors an image",
+                    "summary": "flips and scales an image",
                     "description": "",
-                    "operationId": "upload-image",
+                    "operationId": "transform-image",
                     "consumes": [
                         "multipart/form-data"
                     ],
@@ -103,21 +103,21 @@
                         {
                             "name": "scaledWidth",
                             "in": "formData",
-                            "description": "Expected width of scaled image",
+                            "description": "Expected width of flipped image",
                             "required": true,
                             "type": "integer"
                         },
                         {
                             "name": "scaledHeight",
                             "in": "formData",
-                            "description": "Expected height of scaled image",
+                            "description": "Expected height of flipped image",
                             "required": true,
                             "type": "integer"
                         },
                         {
                             "name": "imageFile",
                             "in": "formData",
-                            "description": "Image to mirror",
+                            "description": "Image to flip and scale",
                             "required": true,
                             "type": "file"
                         }
@@ -143,13 +143,13 @@
             "Image": {
                 "type": "object",
                 "properties": {
-                    "mirrored": {
+                    "transformedImagePath": {
                         "type": "string"
                     },
-                    "width": {
+                    "originalWidth": {
                         "type": "integer"
                     },
-                    "height": {
+                    "originalHeight": {
                         "type": "integer"
                     },
                     "humanReadableFileSize": {

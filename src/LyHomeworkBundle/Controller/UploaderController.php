@@ -47,9 +47,9 @@ class UploaderController extends Controller
     }
 
     /**
-     * @Route("/upload-image", name="uploadImage")
+     * @Route("/transform-image", name="transformImage")
      */
-    public function uploadImageAction(Request $request): Response
+    public function transformImageAction(Request $request): Response
     {
         /** @var Image $image */
         $image = $this->serializer->denormalize(
@@ -66,7 +66,7 @@ class UploaderController extends Controller
 
         $this->transformedImageBuilder
             ->prepareBuilder($image)
-            ->resizeAndMirror()
+            ->resizeAndFlip()
             ->putImageInfo();
 
         return new JsonResponse(

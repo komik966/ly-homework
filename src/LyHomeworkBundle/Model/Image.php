@@ -68,7 +68,7 @@ class Image
      * @Groups({Image::GROUP_RESPONSE})
      * @var string
      */
-    private $mirroredImagePath;
+    private $transformedImagePath;
 
     /**
      * @return UploadedFile
@@ -150,14 +150,14 @@ class Image
         return $this;
     }
 
-    public function getMirroredImagePath(): string
+    public function getTransformedImagePath(): string
     {
-        return $this->mirroredImagePath;
+        return $this->transformedImagePath;
     }
 
-    public function setMirroredImagePath(string $mirroredImagePath): Image
+    public function setTransformedImagePath(string $transformedImagePath): Image
     {
-        $this->mirroredImagePath = $mirroredImagePath;
+        $this->transformedImagePath = $transformedImagePath;
         return $this;
     }
 }
