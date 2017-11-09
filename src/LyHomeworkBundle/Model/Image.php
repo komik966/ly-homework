@@ -18,7 +18,7 @@ class Image
      * @Assert\File(maxSize="5M")
      * @var UploadedFile
      */
-    private $image;
+    private $imageFile;
 
     /**
      * @Groups({Image::GROUP_RESPONSE})
@@ -73,14 +73,14 @@ class Image
     /**
      * @return UploadedFile
      */
-    public function getImage(): UploadedFile
+    public function getImageFile(): UploadedFile
     {
-        return $this->image;
+        return $this->imageFile;
     }
 
-    public function setImage($image): Image
+    public function setImageFile($imageFile): Image
     {
-        $this->image = $image;
+        $this->imageFile = $imageFile;
         return $this;
     }
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LyHomeworkBundle\Controller;
 
+use LyHomeworkBundle\Builder\TransformedImageBuilder;
 use LyHomeworkBundle\Model\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,10 +26,16 @@ class UploaderController extends Controller
      */
     private $validator;
 
-    public function __construct(Serializer $serializer, ValidatorInterface $validator)
+    /**
+     * @var TransformedImageBuilder
+     */
+    private $transformedImageBuilder;
+
+    public function __construct(Serializer $serializer, ValidatorInterface $validator, TransformedImageBuilder $transformedImageBuilder)
     {
         $this->serializer = $serializer;
         $this->validator = $validator;
+        $this->transformedImageBuilder = $transformedImageBuilder;
     }
 
     /**
@@ -44,6 +51,7 @@ class UploaderController extends Controller
      */
     public function uploadImageAction(Request $request): Response
     {
+        /** @var Image $image */
         $image = $this->serializer->denormalize(
             array_merge($request->request->all(), $request->files->all()),
             Image::class,
@@ -56,8 +64,17 @@ class UploaderController extends Controller
             return $validationResult;
         }
 
+        $this->transformedImageBuilder
+            ->prepareBuilder($image)
+            ->resizeAndMirror()
+            ->putImageInfo();
+
         return new JsonResponse(
-            $this->serializer->serialize($image, 'json', ['groups' => Image::GROUP_RESPONSE]), 200, [],
+            $this->serializer->serialize(
+                $this->transformedImageBuilder->getResultImage(), 'json', ['groups' => [Image::GROUP_RESPONSE]]
+            ),
+            200,
+            [],
             true
         );
     }
