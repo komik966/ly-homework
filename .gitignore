@@ -17,3 +17,5 @@ build/
 /web/bundles/
 /web/images
 !/web/images/.gitkeep
+tests/LyHomeworkBundle/Unit/Builder/images/
+!tests/LyHomeworkBundle/Unit/Builder/images/pets.jpg
