@@ -1,6 +1,8 @@
 language: php
 php:
     - 7.1
+before_install:
+    - printf "\n" | pecl install imagick
 install:
     - composer install
 script:
