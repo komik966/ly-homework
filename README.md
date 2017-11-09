@@ -43,3 +43,14 @@ Follow screenshots:
 ![Image](./docs/img-flip-3.png)
 
 ![Image](./docs/img-flip-4.png)
+
+Task 3: Random user by letter
+============================
+Execute it as Symfony command:
+
+![Image](./docs/random-user-by-letter.png)
+
+With Docker:
+```bash
+docker exec ly-homework ./bin/console ly-homework:random-user-by-letter
+```

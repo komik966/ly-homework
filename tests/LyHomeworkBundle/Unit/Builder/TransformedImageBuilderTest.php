@@ -26,7 +26,7 @@ class TransformedImageBuilderTest extends TestCase
             ->setImageFile($this->mockUploadedFile())
             ->setScaledWidth(50)
             ->setScaledHeight(50);
-        $resultImage = (new TransformedImageBuilder(__DIR__, '/images'))
+        $resultImage = (new TransformedImageBuilder(getenv('FIXTURES_PATH'), '/images'))
             ->prepareBuilder($baseImage)
             ->resizeAndFlip()
             ->getResultImage();
@@ -51,7 +51,7 @@ class TransformedImageBuilderTest extends TestCase
     private function mockUploadedFile(): UploadedFile
     {
         $mock = $this->createMock(UploadedFile::class);
-        $mock->method('getPathname')->willReturn(__DIR__ . '/images/pets.jpg');
+        $mock->method('getPathname')->willReturn(getenv('FIXTURES_PATH') . '/images/pets.jpg');
         $mock->method('getMimeType')->willReturn('image/jpg');
         $mock->method('getSize')->willReturn(4096);
         /**
