@@ -30,6 +30,8 @@ services:
         tags: ['controller.service_arguments']
 
     # add more services, or override services that need manual wiring
-    # LyHomeworkBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
+    LyHomeworkBundle\Builder\TransformedImageBuilder:
+        class: LyHomeworkBundle\Builder\TransformedImageBuilder
+        arguments:
+            $webDir: '%kernel.project_dir%/web'
+            $imagesPath: '/images'

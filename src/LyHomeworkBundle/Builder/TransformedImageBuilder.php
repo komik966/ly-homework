@@ -17,7 +17,24 @@ class TransformedImageBuilder
      */
     private $resultImage;
 
-    public function prepareBuilder(Image $baseImage): TransformedImageBuilder {
+    /**
+     * @var string
+     */
+    private $webDir;
+
+    /**
+     * @var string
+     */
+    private $imagesPath;
+
+    public function __construct(string $webDir, string $imagesPath)
+    {
+        $this->webDir = $webDir;
+        $this->imagesPath = $imagesPath;
+    }
+
+    public function prepareBuilder(Image $baseImage): TransformedImageBuilder
+    {
         $this->baseImage = $baseImage;
         $this->resultImage = new Image();
         return $this;
@@ -25,17 +42,24 @@ class TransformedImageBuilder
 
     public function resizeAndFlip(): TransformedImageBuilder
     {
+        $imagick = new \Imagick($this->baseImage->getImageFile()->getPathname());
+        $imagick->flipImage();
+        $imagick->thumbnailImage($this->baseImage->getScaledWidth(), $this->baseImage->getScaledHeight());
+
+        $imagePath = $this->imagesPath . '/'. uniqid() . '.jpg';
+        $this->resultImage->setTransformedImagePath($imagePath);
+        $imagick->writeImage($this->webDir . '/' . $imagePath);
         return $this;
     }
 
     public function putImageInfo(): TransformedImageBuilder
     {
+        $dimensions = (new \Imagick($this->baseImage->getImageFile()->getPathname()))->getImageGeometry();
         $this->resultImage
             ->setMimeType($this->baseImage->getImageFile()->getMimeType())
             ->setHumanReadableFileSize($this->humanFileSize($this->baseImage->getImageFile()->getSize()))
-            ->setTransformedImagePath('foo')
-            ->setOriginalWidth(100)
-            ->setOriginalHeight(100);
+            ->setOriginalWidth($dimensions['width'])
+            ->setOriginalHeight($dimensions['height']);
         return $this;
     }
 

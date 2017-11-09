@@ -64,10 +64,17 @@ class UploaderController extends Controller
             return $validationResult;
         }
 
-        $this->transformedImageBuilder
-            ->prepareBuilder($image)
-            ->resizeAndFlip()
-            ->putImageInfo();
+        try {
+            $this->transformedImageBuilder
+                ->prepareBuilder($image)
+                ->resizeAndFlip()
+                ->putImageInfo();
+        } catch (\ImagickException $e) {
+            return new JsonResponse(
+                ['errors' => ['path' => 'imageFile', 'message' => 'Cannot transform image. Is it image format?']],
+                400
+            );
+        }
 
         return new JsonResponse(
             $this->serializer->serialize(
